@@ -3,15 +3,27 @@ import streamlit as st
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import numpy as np
-import os
 
-# Debugging current working directory
-st.text(f"Current working directory: {os.getcwd()}")
+# Streamlit app configuration
+st.title("Hurricane Categorization using K-Means Clustering")
+st.write("This app demonstrates categorization of hurricanes using K-means clustering based on Pressure and Size.")
 
-# Load the dataset
-# Update the path to use the current working directory or provide a relative path
-data_file = 'hurricane_sample_data_random.csv'
-data = pd.read_csv(data_file)
+# Generate the dataset
+def generate_hurricane_data(num_samples=10):
+    np.random.seed(42)
+    hurricane_names = [f"Hurricane_{i+1}" for i in range(num_samples)]
+    wind_speed = np.random.randint(74, 200, size=num_samples)
+    pressure = np.random.randint(880, 950, size=num_samples)
+    size = np.random.randint(200, 500, size=num_samples)
+    data = pd.DataFrame({
+        'Hurricane Name': hurricane_names,
+        'Wind Speed (mph)': wind_speed,
+        'Pressure (hPa)': pressure,
+        'Size (mi)': size
+    })
+    return data
+
+data = generate_hurricane_data()
 
 # Define hurricane categories based on wind speed
 def categorize_hurricane(wind_speed):
@@ -30,10 +42,6 @@ def categorize_hurricane(wind_speed):
 
 # Apply categorization based on wind speed
 data['Actual Category'] = data['Wind Speed (mph)'].apply(categorize_hurricane)
-
-# Streamlit app configuration
-st.title("Hurricane Categorization using K-Means Clustering")
-st.write("This app demonstrates categorization of hurricanes using K-means clustering based on Pressure and Size.")
 
 # Display the data
 st.subheader("Hurricane Data")
