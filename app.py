@@ -8,22 +8,17 @@ import numpy as np
 st.title("Hurricane Categorization using K-Means Clustering")
 st.write("This app demonstrates categorization of hurricanes using K-means clustering based on Pressure and Size.")
 
-# Generate the dataset
-def generate_hurricane_data(num_samples=10):
-    np.random.seed(42)
-    hurricane_names = [f"Hurricane_{i+1}" for i in range(num_samples)]
-    wind_speed = np.random.randint(74, 200, size=num_samples)
-    pressure = np.random.randint(880, 950, size=num_samples)
-    size = np.random.randint(200, 500, size=num_samples)
-    data = pd.DataFrame({
-        'Hurricane Name': hurricane_names,
-        'Wind Speed (mph)': wind_speed,
-        'Pressure (hPa)': pressure,
-        'Size (mi)': size
-    })
-    return data
-
-data = generate_hurricane_data()
+# Define the dataset with given data points
+data = pd.DataFrame({
+    'Hurricane Name': [
+        'Hurricane Katrina (2005)', 'Hurricane Harvey (2017)', 'Hurricane Ian (2022)',
+        'Hurricane Andrew (1992)', 'Hurricane Irma (2017)', 'Hurricane Ivan (2004)',
+        'Hurricane Charley (2004)'
+    ],
+    'Estimated Damage Cost (USD)': [160_000_000_000, 125_000_000_000, 60_000_000_000, 51_300_000_000, 50_000_000_000, 26_100_000_000, 14_000_000_000],
+    'Wind Speed (mph)': [175, 130, 160, 175, 180, 165, 150],
+    'Pressure (hPa)': [902, 938, 937, 922, 914, 910, 941]
+})
 
 # Define hurricane categories based on wind speed
 def categorize_hurricane(wind_speed):
@@ -48,7 +43,7 @@ st.subheader("Hurricane Data")
 st.write(data)
 
 # Prepare features for clustering
-X = data[['Pressure (hPa)', 'Size (mi)']]
+X = data[['Pressure (hPa)', 'Wind Speed (mph)']]
 
 # Get user input for number of clusters (categories)
 num_clusters = st.slider("Select number of clusters for K-Means", min_value=1, max_value=5, value=5)
@@ -59,16 +54,16 @@ data['Cluster'] = kmeans.fit_predict(X)
 
 # Display the clustering results
 st.subheader("Cluster Assignment")
-st.write(data[['Hurricane Name', 'Pressure (hPa)', 'Size (mi)', 'Wind Speed (mph)', 'Actual Category', 'Cluster']])
+st.write(data[['Hurricane Name', 'Pressure (hPa)', 'Wind Speed (mph)', 'Actual Category', 'Cluster']])
 
 # Plotting the Clusters
 st.subheader("Cluster Visualization")
 fig, ax = plt.subplots()
-scatter = ax.scatter(data['Pressure (hPa)'], data['Size (mi)'], c=data['Cluster'], cmap='viridis', alpha=0.6)
+scatter = ax.scatter(data['Pressure (hPa)'], data['Wind Speed (mph)'], c=data['Cluster'], cmap='viridis', alpha=0.6)
 centroids = kmeans.cluster_centers_
 ax.scatter(centroids[:, 0], centroids[:, 1], c='red', marker='X', s=100, label='Centroids')
 ax.set_xlabel('Pressure (hPa)')
-ax.set_ylabel('Size (mi)')
+ax.set_ylabel('Wind Speed (mph)')
 ax.set_title('K-Means Clustering of Hurricanes')
 ax.legend()
 st.pyplot(fig)
