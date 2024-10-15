@@ -8,10 +8,8 @@ import os
 # Debugging current working directory
 st.text(f"Current working directory: {os.getcwd()}")
 
-# Set working directory explicitly (if needed)
-os.chdir('/Users/rahulsunilkumar/')
-
 # Load the dataset
+# Update the path to use the current working directory or provide a relative path
 data_file = 'hurricane_sample_data_random.csv'
 data = pd.read_csv(data_file)
 
