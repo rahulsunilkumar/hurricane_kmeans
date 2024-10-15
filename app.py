@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Load the dataset
-data_file = 'hurricane_sample_data_random.csv'
+data_file = '/Users/rahulsunilkumar/hurricane_sample_data_random.csv'
 data = pd.read_csv(data_file)
 
 # Define hurricane categories based on wind speed
