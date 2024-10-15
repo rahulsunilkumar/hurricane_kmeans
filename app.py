@@ -3,9 +3,16 @@ import streamlit as st
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import numpy as np
+import os
+
+# Debugging current working directory
+st.text(f"Current working directory: {os.getcwd()}")
+
+# Set working directory explicitly (if needed)
+os.chdir('/Users/rahulsunilkumar/')
 
 # Load the dataset
-data_file = '/Users/rahulsunilkumar/hurricane_sample_data_random.csv'
+data_file = 'hurricane_sample_data_random.csv'
 data = pd.read_csv(data_file)
 
 # Define hurricane categories based on wind speed
